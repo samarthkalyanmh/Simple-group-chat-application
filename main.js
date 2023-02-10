@@ -6,6 +6,7 @@ const app = express()
 
 app.use(bodyParser.urlencoded({extended:false}))
 
+
 app.get('/login', (req,res,next)=>{
     res.send('<form onsubmit="localStorage.setItem(`username`, document.getElementById(`username`).value)" action="/savedetails" method="POST"><input id="username" type="text" placeholder="username" name="username"><button type="submit">Login</button></form>')
 })
@@ -20,11 +21,9 @@ app.post('/savedetails', (req,res,next)=>{
 app.post('/writechat', (req,res,next)=>{
    
     console.log(req.body)
-    fs.readFile('chats.txt', (err, data) => {
-        
-        fs.writeFile('chats.txt', data.toString() +' '+ req.body.hidden + ':' + req.body.message, err =>{
-            res.redirect('/')
-       })
+
+    fs.writeFile('chats.txt', req.body.hidden + ':' + req.body.message + ' ', {flag: 'a'}, err =>{
+        res.redirect('/')
     })
     
 })
